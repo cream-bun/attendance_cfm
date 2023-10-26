@@ -10,23 +10,23 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_10_24_095454) do
+ActiveRecord::Schema[7.0].define(version: 2023_10_24_120558) do
   create_table "answers", charset: "utf8", force: :cascade do |t|
-    t.bigint "creatstudent_id"
-    t.bigint "question_id"
-    t.boolean "check"
+    t.bigint "student_id", null: false
+    t.bigint "question_id", null: false
+    t.boolean "check", null: false
     t.text "remarks"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["creatstudent_id"], name: "index_answers_on_creatstudent_id"
     t.index ["question_id"], name: "index_answers_on_question_id"
+    t.index ["student_id"], name: "index_answers_on_student_id"
   end
 
   create_table "attendances", charset: "utf8", force: :cascade do |t|
-    t.date "dating"
-    t.string "attendance"
-    t.bigint "student_id"
-    t.bigint "lecture_id"
+    t.date "dating", null: false
+    t.string "attendance", null: false
+    t.bigint "student_id", null: false
+    t.bigint "lecture_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["lecture_id"], name: "index_attendances_on_lecture_id"
@@ -34,35 +34,52 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_24_095454) do
   end
 
   create_table "lectures", charset: "utf8", force: :cascade do |t|
-    t.string "subject"
+    t.string "subject", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
   create_table "questions", charset: "utf8", force: :cascade do |t|
-    t.date "dating"
+    t.date "dating", null: false
     t.text "question"
-    t.bigint "lecture_id"
+    t.bigint "lecture_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["lecture_id"], name: "index_questions_on_lecture_id"
   end
 
   create_table "students", charset: "utf8", force: :cascade do |t|
-    t.string "student_number"
-    t.string "department"
-    t.string "name"
-    t.date "birth_day"
-    t.string "encrypted_password"
+    t.string "student_number", null: false
+    t.string "department", null: false
+    t.string "name", null: false
+    t.date "birth_day", null: false
+    t.string "encrypted_password", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
   create_table "user_admins", charset: "utf8", force: :cascade do |t|
-    t.string "name"
-    t.string "encrypted_password"
+    t.string "name", null: false
+    t.string "encrypted_password", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
+  create_table "users", charset: "utf8", force: :cascade do |t|
+    t.string "email", default: "", null: false
+    t.string "encrypted_password", default: "", null: false
+    t.string "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+  end
+
+  add_foreign_key "answers", "questions"
+  add_foreign_key "answers", "students"
+  add_foreign_key "attendances", "lectures"
+  add_foreign_key "attendances", "students"
+  add_foreign_key "questions", "lectures"
 end
