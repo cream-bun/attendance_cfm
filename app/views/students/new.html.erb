@@ -1,0 +1,16 @@
+<div class="contents row">
+  <div class="container">
+    <h3>投稿する</h3>
+    <%= form_with(model: @student, local: true) do |form| %>
+      <%= form.text_field :name, placeholder: "学籍番号" %>
+      <%= form.text_field :image, placeholder: "学部" %>
+      <%= form.text_field :image, placeholder: "名前" %>
+      <%= form.text_field :image, placeholder: "誕生日" %>
+      <%= form.text_field :image, placeholder: "パスワード" %>
+
+      <% form.text_area :text, placeholder: "text", rows: "10" %>
+
+      <%= form.submit "SEND" %>
+    <% end %>
+  </div>
+</div>
